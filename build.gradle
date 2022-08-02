@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'jacoco'
+    id 'maven-publish'
 }
 
 group 'com.jungin'
@@ -32,4 +33,19 @@ jacocoTestReport {
         sourceSets it.sourceSets.main
     }
     executionData fileTree(project.rootDir.absolutePath).include("**/build/jacoco/*.exec")
+}
+
+publishing {
+    publications {
+        customLibrary(MavenPublication) {
+            from components.java
+        }
+    }
+
+    repositories {
+        maven {
+            name = 'sampleRepo'
+            url = layout.buildDirectory.dir("repo")
+        }
+    }
 }
